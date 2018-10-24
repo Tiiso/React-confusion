@@ -30,6 +30,8 @@ import { Card, CardImg, CardText, CardBody,
     }
 
     function RenderComments({comments}) {
+
+      const options = { year: "numeric", month: "numeric", day: "numeric" };
       
       if (comments != null) {
       const reviews = comments.map((commenting) => {
@@ -37,7 +39,7 @@ import { Card, CardImg, CardText, CardBody,
           <div key = {commenting.id}>
             <ul className = "list-unstyled">
               <li>{commenting.comment}</li><br />
-             <p>-- {comment.author}, {new Date(comment.date).toLocaleDateString('en-US', options)}</p>
+             <p>-- {comments.author}, {new Date(comments.date).toLocaleDateString('en-US', options)}</p>
             </ul>
           </div>
         );
@@ -49,10 +51,10 @@ import { Card, CardImg, CardText, CardBody,
     }
 
     const  DishDetail = (props) => {
-
+      <div>
       <RenderDish dish={props.dish} />
       <RenderComments comments={props.dish.comments} />
-      
+      </div>
     }
 
 export default DishDetail;
