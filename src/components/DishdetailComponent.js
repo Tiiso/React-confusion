@@ -1,54 +1,56 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody,CardTitle } from 'reactstrap';
 import { Card, CardImg, CardText, CardBody,CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
     function RenderDish({dish}) {
+        if(dish != null) {
+            return (
+                <Card>
+                    <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            )
+        } else {
+            return (
+                <div></div>
+            );
+        }
+}
     
-      if (dish != null) {
-      return (
-        <div className = "row">
-        <div className = "col-12 col-md-5 m-1">
-          <Card>
-            <CardImg width = "100%" src={dish.image} alt={dish.name} />
-            <CardBody>
-              <CardTitle>{dish.name}</CardTitle>
-              <CardText>{dish.description}</CardText>
-            </CardBody>
-          </Card>
-        </div>
-        <div className = "col-12 col-md-5 m-1">
-          <h4>Comments</h4><br />
-          {this.renderComments(dish.comments)}
-        </div>
-      </div>
-      );
-    } else {
-      return (<div></div>);
-    }
+    function RenderComments({dish}) {
+        const options = {year: 'numeric', month: 'short', day: 'numeric'};
+        if(dish != null) {
+            const comments = dish.comments.map((comment) => {
+                return (
+                    <div key={comment.id}>
+                        <ul className="list-unstyled">
+                            <li className="media">
+                                <div className="media-body">
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author}, {new Date(comment.date).toLocaleDateString('en-US', options)}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                );
+            });
 
-    }
+            return (
+                <div>
+                    <h4>Comments</h4>
+                    {comments}
+                </div>
+            );
+        } else {
+            return (
+                <div></div>
+            );
+        }
+}
 
-    function RenderComments({comments}) {
-
-      const options = { year: "numeric", month: "numeric", day: "numeric" };
-      
-      if (comments != null) {
-      const reviews = comments.map((commenting) => {
-        return (
-          <div key = {commenting.id}>
-            <ul className = "list-unstyled">
-              <li>{commenting.comment}</li><br />
-             <p>-- {comments.author}, {new Date(comments.date).toLocaleDateString('en-US', options)}</p>
-            </ul>
-          </div>
-        );
-      });
-      return reviews;
-    } else {
-      return (<div></div>);
-    }      
-    }
 
     const  DishDetail = (props) => {
       return (
